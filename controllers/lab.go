@@ -12,6 +12,7 @@ import (
 )
 
 type LabInput struct {
+	UserId           uuid.UUID `json:"user_id"`
 	Date             time.Time `json:"date"`
 	Glucose          float64   `json:"glucose"`
 	CholesterolTotal float64   `json:"cholesterol_total"`
@@ -23,14 +24,15 @@ type LabInput struct {
 
 func AddLabResult(c *gin.Context) {
 	var input LabInput
+
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
-	userID := c.MustGet("userId").(uuid.UUID)
+	// userID := c.MustGet("userId").(uuid.UUID)
 	result := models.LabResult{
-		UserID:           userID,
+		UserID:           input.UserId,
 		Date:             input.Date,
 		Glucose:          input.Glucose,
 		CholesterolTotal: input.CholesterolTotal,

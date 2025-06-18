@@ -13,6 +13,7 @@ func RegisterRoutes(r *gin.Engine) {
 
 	auth := r.Group("/")
 	auth.Use(middleware.AuthMiddleware())
+	auth.GET("/user/profile", controllers.GetUserProfile)
 	auth.GET("/lab-results", controllers.GetLabResults)
 	auth.POST("/lab-results", controllers.AddLabResult)
 }

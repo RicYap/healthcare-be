@@ -9,7 +9,7 @@ import (
 type LabResult struct {
 	ID               uuid.UUID `gorm:"type:char(36);primaryKey"`
 	UserID           uuid.UUID `gorm:"type:char(36);not null"`
-	Date             time.Time `gorm:"type:datetime"`
+	Date             time.Time `gorm:"type:date"`
 	Glucose          float64   `gorm:"type:float"`
 	CholesterolTotal float64   `gorm:"type:float"`
 	LDL              float64   `gorm:"type:float"`
