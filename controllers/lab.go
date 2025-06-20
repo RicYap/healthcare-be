@@ -40,5 +40,21 @@ func GetLabResults(c *gin.Context) {
 	var results []models.LabResult
 	config.DB.Where("user_id = ?", userID).Order("date desc").Find(&results)
 
-	c.JSON(http.StatusOK, results)
+	var resultsJSON []models.LabInput
+	for _, result := range results {
+		var resultJSON models.LabInput
+		resultJSON.ID = result.ID
+		resultJSON.Date = result.Date
+		resultJSON.Results.Glucose = result.Glucose
+		resultJSON.Results.Cholesterol.Total = result.CholesterolTotal
+		resultJSON.Results.Cholesterol.HDL = result.HDL
+		resultJSON.Results.Cholesterol.LDL = result.LDL
+		resultJSON.Results.BloodPressure.Diastolic = result.Diastolic
+		resultJSON.Results.BloodPressure.Systolic = result.Systolic
+		resultJSON.UserID = result.UserID
+
+		resultsJSON = append(resultsJSON, resultJSON)
+	}
+
+	c.JSON(http.StatusOK, resultsJSON)
 }
