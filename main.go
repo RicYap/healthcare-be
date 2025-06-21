@@ -41,8 +41,8 @@ func main() {
 	// Initialize Gin router
 	r := gin.Default()
 
-	if err := r.SetTrustedProxies([]string{"127.0.0.1"}); err != nil {
-		log.Fatalf("Failed to set trusted proxies: %v", err)
+	if err := r.SetTrustedProxies(nil); err != nil {
+		log.Printf("Warning: failed to set trusted proxies: %v", err) // Don't fatal, just warn
 	}
 
 	// CORS middleware setup
