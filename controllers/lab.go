@@ -13,6 +13,7 @@ import (
 
 func AddLabResult(c *gin.Context) {
 	var input models.LabInput
+	userID := c.MustGet("userId").(uuid.UUID)
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println("err", err)
@@ -21,7 +22,7 @@ func AddLabResult(c *gin.Context) {
 	}
 
 	result := models.LabResult{
-		UserID:           input.UserID,
+		UserID:           userID,
 		Date:             input.Date,
 		Glucose:          input.Results.Glucose,
 		CholesterolTotal: input.Results.Cholesterol.Total,
@@ -38,7 +39,7 @@ func AddLabResult(c *gin.Context) {
 func GetLabResults(c *gin.Context) {
 	userID := c.MustGet("userId").(uuid.UUID)
 	var results []models.LabResult
-	config.DB.Where("user_id = ?", userID).Order("date desc").Find(&results)
+	config.DB.Where("user_id = ?", userID).Order("date asc").Find(&results)
 
 	var resultsJSON []models.LabInput
 	for _, result := range results {
